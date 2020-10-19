@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<meta name="author" content="Paulo Jerônimo &lt;pj@paulojeronimo.com&gt;, 2020-10-19 11:49:55 -0300">
+<meta name="author" content="Paulo Jerônimo &lt;pj@paulojeronimo.com&gt;, 2020-10-19 12:16:39 -0300">
 <title>Integrando um "Robô (URA)" ao Keycloak</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>Integrando um "Robô (URA)" ao Keycloak</h1>
 <div class="details">
-<span id="author" class="author">Paulo Jerônimo &lt;pj@paulojeronimo.com&gt;, 2020-10-19 11:49:55 -0300</span><br>
+<span id="author" class="author">Paulo Jerônimo &lt;pj@paulojeronimo.com&gt;, 2020-10-19 12:16:39 -0300</span><br>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Conteúdo</div>
@@ -499,13 +499,13 @@ No futuro este documento poderá ser atualizado para utilizar
 </div>
 <div class="paragraph">
 <p>O objetivo deste documento é auxiliar desenvolvedores que precisem fazer
-a integração do Keycloak a uma URA a entender quais seriam os
-participantes e os papéis dessa integração.</p>
+uma integração do Keycloak com uma URA a entender quais seriam os
+participantes dessa integração e quais seriam seus papéis nela.</p>
 </div>
 <div class="paragraph">
-<p>De forma bem específica, <a href="#o-robo-helper">O RobôHelper</a> é o componente que precisaria
-ser criado por por desenvolvedor de uma solução de integração de uma URA
-existente ao Keycloak que seguisse fluxos como os descritos abaixo.</p>
+<p>De forma bem específica, <a href="#o-robo-helper">O RobôHelper</a> é o componente participante
+que precisaria ser criado pelo desenvolvedor de uma solução de
+integração onde houvessem os fluxos descritos abaixo.</p>
 </div>
 </div>
 </div>
@@ -517,8 +517,7 @@ existente ao Keycloak que seguisse fluxos como os descritos abaixo.</p>
 Essa empresa também possui vários outros sistemas, além do Sistema1.
 Para acessar o Sistema1, a pessoa inicia sua interação com este através
 de um Robô da empresa.
-Esse Robô lhe oferece um
-"<a href="#atendimento-robotico">Atendimento Robótico</a>".</p>
+Esse Robô lhe oferece um <a href="#atendimento-robotico">Atendimento Robótico</a>.</p>
 </div>
 <div class="paragraph">
 <p>O Robô é de confiança da empresa.
@@ -538,7 +537,7 @@ Keycloak.
 Nele são configurados parâmetros de segurança que são averiguados pelo
 Robô.
 Ele é invocado por operações do Robô e, também, por operações do
-"<a href="#atendimento-humano">Atendimento Humano</a>".</p>
+<a href="#atendimento-humano">Atendimento Humano</a>.</p>
 </div>
 <div class="paragraph">
 <p>O Robô jamais armazena a senha de uma pessoa e também não valida
@@ -548,7 +547,7 @@ ser igual as últimas senhas (por exemplo).
 Por esse motivo é que ele precisa da ajuda do <a href="#o-robo-helper">RobôHelper</a>.</p>
 </div>
 <div class="paragraph">
-<p>O Robô pode transferir a pessoa para o "Atendimento Humano".
+<p>O Robô pode transferir a pessoa para o <a href="#atendimento-humano">Atendimento Humano</a>.
 O atendente pode apenas criar uma senha temporária para a
 pessoa (através do <a href="#o-robo-helper">RobôHelper</a>).
 Essa senha temporária deverá ser trocada pela pessoa (através do Robô)
@@ -564,7 +563,7 @@ Para isso é necessário que esses outros sistemas estejam no mesmo
 </div>
 <div class="paragraph">
 <p>Somente o Robô pode cadastrar da pessoa no Sistema1 (através de uma
-solicitação oriunda do "Atendimento Humano").
+solicitação oriunda do <a href="#atendimento-humano">Atendimento Humano</a>).
 Um dos motivos para isso é para impedir que um atendente saiba qual é a
 senha da pessoa elevando, assim, o nível de segurança do Sistema1.</p>
 </div>
@@ -733,8 +732,8 @@ componente integrado ao Keycloak que deve:</p>
 <ol class="arabic">
 <li>
 <p><a href="https://www.keycloak.org/docs/latest/server_development/index.html#_extensions_rest" target="_blank" rel="noopener">Implementar uma extensão da API REST</a> do
-  Keycloak que será acessível tanto ao Robô quanto ao
-"Atendimento Humano". Dessa forma:</p>
+  Keycloak que será acessível tanto ao <a href="#atendimento-robotico">Atendimento Robótico</a> quanto ao
+<a href="#atendimento-humano">Atendimento Humano</a>. Dessa forma:</p>
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
