@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<meta name="author" content="Paulo Jerônimo &lt;pj@paulojeronimo.com&gt;, 2020-10-19 12:22:03 -0300">
+<meta name="author" content="Paulo Jerônimo &lt;pj@paulojeronimo.com&gt;, 2020-10-19 13:06:19 -0300">
 <title>Integrando um "Robô (URA)" ao Keycloak</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>Integrando um "Robô (URA)" ao Keycloak</h1>
 <div class="details">
-<span id="author" class="author">Paulo Jerônimo &lt;pj@paulojeronimo.com&gt;, 2020-10-19 12:22:03 -0300</span><br>
+<span id="author" class="author">Paulo Jerônimo &lt;pj@paulojeronimo.com&gt;, 2020-10-19 13:06:19 -0300</span><br>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Conteúdo</div>
@@ -513,60 +513,70 @@ categorizados em dois: <a href="#atendimento-robotico">Atendimento Robótico</a>
 <div class="sect1">
 <h2 id="o-problema">2. O problema</h2>
 <div class="sectionbody">
-<div class="paragraph">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
 <p>Uma pessoa deseja acessar o "Sistema1" da empresa "XPTO".
 Essa empresa também possui vários outros sistemas, além do Sistema1.
 Para acessar o Sistema1, a pessoa inicia sua interação com este através
 de um Robô da empresa.
 Esse Robô lhe oferece um <a href="#atendimento-robotico">Atendimento Robótico</a>.</p>
-</div>
-<div class="paragraph">
+</li>
+<li>
 <p>O Robô é de confiança da empresa.
-Isso significa que a pessoa pode informar sua senha para o Robô (ele
-representa a empresa).
-Também significa que ele pode conceder acesso ao Sistema1 (ou a qualquer
-outro da empresa).</p>
-</div>
-<div class="paragraph">
-<p>O Robô utiliza uma extensão do único software de Single Sing-On (SSO) da
-empresa (o Keycloak).
+Isso significa que a pessoa pode informar sua senha para o Robô (quando
+solicitado por ele).
+Também significa que o Robô é capaz de conceder acesso ao Sistema1 (ou a
+qualquer outro da empresa).</p>
+</li>
+<li>
+<p>O Robô utiliza uma extensão do único software de Single Sing-On (SSO)
+  da empresa: o <a href="https://www.keycloak.org" target="_blank" rel="noopener">Keycloak</a>.
 Essa extensão é chamada de "<a href="#o-robo-helper">RobôHelper</a>".</p>
-</div>
-<div class="paragraph">
-<p><a href="#o-robo-helper">O RobôHelper</a> funciona completamente acoplado (integrado) ao
-Keycloak.
+</li>
+<li>
+<p><a href="#o-robo-helper">O RobôHelper</a> funciona completamente acoplado (e integrado) ao
+  Keycloak.
 Nele são configurados parâmetros de segurança que são averiguados pelo
 Robô.
 Ele é invocado por operações do Robô e, também, por operações do
 <a href="#atendimento-humano">Atendimento Humano</a>.</p>
-</div>
-<div class="paragraph">
+</li>
+<li>
 <p>O Robô jamais armazena a senha de uma pessoa e também não valida
 detalhes a respeito dela.
 Sendo assim, ele não sabe se a senha precisa ser numérica ou se não pode
 ser igual as últimas senhas (por exemplo).
 Por esse motivo é que ele precisa da ajuda do <a href="#o-robo-helper">RobôHelper</a>.</p>
-</div>
-<div class="paragraph">
+</li>
+<li>
 <p>O Robô pode transferir a pessoa para o <a href="#atendimento-humano">Atendimento Humano</a>.
 O atendente pode apenas criar uma senha temporária para a
 pessoa (através do <a href="#o-robo-helper">RobôHelper</a>).
-Essa senha temporária deverá ser trocada pela pessoa (através do Robô)
-em seu primeiro acesso ao Sistema1.
 O atendente não pode, jamais, saber qual é a senha final da pessoa para
 o Sistema1 (ou qualquer outro).</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Somente o <a href="#o-robo-helper">RobôHelper</a> pode cadastrar a pessoa no Sistema1 (e apenas
+através de uma requisição oriunda de um atendente).
+Essa senha temporária é de alteração obrigatória quando o atendente
+transfere o fluxo do <a href="#atendimento-humano">Atendimento Humano</a> para o <a href="#atendimento-robotico">Atendimento Robótico</a>
+encerrando o cadastro da pessoa.
+Novamente: isso é para impedir que o atendente saiba qual é senha que
+será utilizada pela pessoa elevando, assim, o nível de segurança do
+Sistema1.</p>
+</li>
+</ol>
 </div>
-<div class="paragraph">
+</li>
+<li>
 <p>A senha utilizada pela pessoa para acessar o Sistema1 também pode ser
 utilizada para que ela tenha acesso a outros sistemas.
 Para isso é necessário que esses outros sistemas estejam no mesmo
 "Realm" do Sistema1.</p>
-</div>
-<div class="paragraph">
-<p>Somente o Robô pode cadastrar da pessoa no Sistema1 (através de uma
-solicitação oriunda do <a href="#atendimento-humano">Atendimento Humano</a>).
-Um dos motivos para isso é para impedir que um atendente saiba qual é a
-senha da pessoa elevando, assim, o nível de segurança do Sistema1.</p>
+</li>
+</ol>
 </div>
 </div>
 </div>
