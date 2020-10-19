@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<meta name="author" content="Paulo Jerônimo &lt;pj@paulojeronimo.com&gt;, 2020-10-19 13:06:19 -0300">
+<meta name="author" content="Paulo Jerônimo &lt;pj@paulojeronimo.com&gt;, 2020-10-19 14:33:28 -0300">
 <title>Integrando um "Robô (URA)" ao Keycloak</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>Integrando um "Robô (URA)" ao Keycloak</h1>
 <div class="details">
-<span id="author" class="author">Paulo Jerônimo &lt;pj@paulojeronimo.com&gt;, 2020-10-19 13:06:19 -0300</span><br>
+<span id="author" class="author">Paulo Jerônimo &lt;pj@paulojeronimo.com&gt;, 2020-10-19 14:33:28 -0300</span><br>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Conteúdo</div>
@@ -539,6 +539,9 @@ Essa extensão é chamada de "<a href="#o-robo-helper">RobôHelper</a>".</p>
   Keycloak.
 Nele são configurados parâmetros de segurança que são averiguados pelo
 Robô.
+Esses parâmetros indicam, por exemplo, se uma senha deve ser numérica e
+de 6 dígitos e se ela não pode ser igual as duas últimas senhas
+utilizadas.
 Ele é invocado por operações do Robô e, também, por operações do
 <a href="#atendimento-humano">Atendimento Humano</a>.</p>
 </li>
@@ -613,20 +616,20 @@ Para isso é necessário que esses outros sistemas estejam no mesmo
 <pre class="highlight nowrap"><code>"Alterar senha" {
    Se uma senha não foi informada OU é preciso confirmar a senha informada {
       A pessoa informará a senha falando-a para o Robô (ou digitando-a no teclado oferecido por ele).
-      O Robô, através do RobôHelper, verificará se a senha tem uma formação válida.
+      O Robô, por uma chamada ao RobôHelper, verificará se a senha tem uma formação válida e salvará a resposta retornada por ele.
          Essa chamada do Robô ao RobôHelper é necessária pois ele não guarda (em si) a senha da pessoa e nem suas características.
          É o RobôHelper que verifica, por exemplo, se a senha é numérica, de seis dígitos, e se não é igual as duas últimas senhas utilizadas pela pessoa.
       Se a senha informada pela pessoa não tiver uma formação válida {
          O Robô incrementará o número da tentativa da pessoa para criar uma senha.
          Se ainda não for a terceira tentativa que a pessoa teve para criar uma senha {
-            O Robô informará à pessoa: "Senha inválida. Ela deve ser numérica, de seis dígitos, e não deve ser igual a suas senha anteriores."
-            O Robô reentrará nesse fluxo com uma senha não informada mas com o número de tentativa incrementado.
+            O Robô informará à pessoa a resposta que salvou do retorno da chamada ao RobôHelper.
+            O Robô reentrará no fluxo "Alterar senha" sem informar uma senha mas com o número de tentativa incrementado.
          } senão {
             O Robô transferirá a pessoa ao "Atendimento Humano" com o status: "Dificuldade para criar senha".
          }
       }
       Se uma senha não foi informada {
-         O Robô reentrará nesse fluxo passando a senha informada e a informação de que é preciso confirmar essa senha.
+         O Robô reentrará no fluxo "Alterar senha" passando a senha informada e a informação de que é preciso confirmar essa senha.
       }
    }
    Se a senha informada pela pessoa for diferente da senha passada para o fluxo {
